@@ -4,7 +4,10 @@ Library    SeleniumLibrary
 *** Variables ***
 ${TEST_URL}    https://google.com
 ${BROWSER}    chrome
-*** Keywords ***
+${AssetKey}    Test-3
+${TestCaseKey}
+
+*** Keywords ***   
 Open Browser To view Google Page
     Open Browser    ${TEST_URL}    ${BROWSER}
-    Maximize Browser Window
+    Maximize Browser Window  

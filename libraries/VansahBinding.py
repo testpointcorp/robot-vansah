@@ -1,19 +1,30 @@
 import requests
+import os
+import logging
 
 class VansahBinding:
-
     apiVersion = 'v1'
-    runPath = '/api/run'
+    Vansah_URL = "https://prod.vansahnode.app"
 
-    def __init__(self,Vansah_URL):
-        self.Vansah_URL = Vansah_URL
-        self.endpoint = Vansah_URL+self.apiVersion+self.runPath
-    
-    def sendResultstoVansah(self,TestCaseKey,AssetKey):
-        self.TestCaseKey = TestCaseKey
-        self.AssetKey = AssetKey
+    @staticmethod
+    def sendResultsToVansah(TestCaseKey, AssetKey, Result):
+        runPath = f'/api/{VansahBinding.apiVersion}/run'
+        endpoint = VansahBinding.Vansah_URL + runPath
 
-    def vansahRunAPI(self):
-        response = requests.post(self.endpoint,json={})
-        return response
-    
+        payload = {
+            "case": {"key": TestCaseKey},
+            "asset": {"type": "issue", "key": AssetKey},
+            "result": {"name": Result}
+        }
+
+        # Construct request headers
+        headers = {
+            "Authorization": os.environ.get("VANSAH_TOKEN"),
+            "Content-Type": "application/json"
+        }
+
+        logging.info("Sending payload to Vansah: %s", payload)
+        response = requests.post(endpoint, headers=headers, json=payload)
+        logging.info("Vansah response: %s", response.text)
+
+        return response.text
