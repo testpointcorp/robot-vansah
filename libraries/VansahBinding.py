@@ -2,12 +2,10 @@ import requests
 import os
 
 class VansahBinding:
-    apiVersion = 'v1'
-    Vansah_URL = "https://prod.vansahnode.app"  #By default
+    apiVersion = 'v2'
+    Vansah_URL = "https://prod.vansah.com"  #By default
     
-    def setVansahURL(self,Vansah_URL):  #To update the Vansah URL, if Vansah is pinned to other than US location
-        self.Vansah_URL = Vansah_URL
-
+    def setVansahURL(self,Vansah_URL):  #To update the Vansah URL, if Vansah is pinned to other than US location, see: https://help.vansah.com/en/articles/10407923-vansah-api-connect-url
     def sendResultsToVansah(self,TestCaseKey, AssetKey, Result,Properties):   #To send API request to Vansah to execute the Test Case
         runPath = f'/api/{self.apiVersion}/run'
         endpoint = self.Vansah_URL + runPath
